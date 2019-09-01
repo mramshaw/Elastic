@@ -21,6 +21,7 @@ The content are as follows:
 * [Version](#version)
 * [PUT](#put)
 * [Podcasts](#podcasts)
+    * [SE-Radio](#se-radio)
 * [Reference](#reference)
     * [Glossary](#glossary)
     * [Indices and Aliases](#indices-and-aliases)
@@ -108,7 +109,7 @@ but this is still a very common use case for Elasticsearch.
 
 ## AWS
 
-It is possible to create an AWS test cluster from https://www.elastic.co/ but it is also possible to do this from AWS itself.
+It is possible to create an AWS test cluster from http://www.elastic.co/ but it is also possible to do this from AWS itself.
 
 So I'll be exploring the AWS option.
 
@@ -124,7 +125,7 @@ And:
 
 ![Create ES domain 2](images/Create_ES_domain_2.png)
 
-[Note that the __Instance type__ is set to __small__; the default is __Large__.]
+[Note that the __Instance type__ is set to __small__; the default is __large__.]
 
 ![Create ES domain 3](images/Create_ES_domain_3.png)
 
@@ -186,7 +187,7 @@ From the Kibana __Dev Tools__ console:
 GET /
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -224,7 +225,7 @@ From the Kibana __Dev Tools__ console:
 PUT school
 ```
 
-[Creates index - Click green triangle to execute]
+[Creates index - Click the green Play button to execute]
 
 Response:
 
@@ -254,7 +255,7 @@ POST school/_doc/10
 }
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -289,7 +290,7 @@ POST school/_doc/16
 }
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -320,7 +321,7 @@ From the Kibana __Dev Tools__ console:
 GET school
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -440,7 +441,7 @@ From the Kibana __Dev Tools__ console:
 GET /school/_search?q=name:"Saint Paul School"
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -513,7 +514,7 @@ GET /_search
 }
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -588,7 +589,7 @@ GET /_search
 }
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -662,7 +663,7 @@ Deletes the specified index (and apparently all of the indexed data as well):
 DELETE school
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -678,7 +679,7 @@ Response:
 DELETE school/_doc/10
 ```
 
-[Click green triangle to execute]
+[Click the green Play button to execute]
 
 Response:
 
@@ -704,6 +705,25 @@ Response:
 ## Podcasts
 
 Some of the following podcast episodes may be helpful for getting an overview of Elasticsearch.
+
+#### SE-Radio
+
+> Software Engineering Radio is a podcast targeted at the professional software developer.
+
+A good overview of the Elastic Stack:
+
+    http://www.se-radio.net/2017/05/se-radio-episode-292-philipp-krenn-on-elasticsearch/
+
+Jeff Meyerson, the interviewer, went on to found [Software Engineering Daily](http://softwareengineeringdaily.com/).
+
+As the stack has evolved, Logstash seems to have spilt into [Beats](http://www.elastic.co/products/beats) (which are
+aggregation agents that can ship to either Elasticsearch or Logstash) and [Logstash](http://www.elastic.co/products/logstash)
+(which is used for data ingestion and parsing - and also enrichment [for instance, geolocating IP addresses]).
+
+[Apparently geolocation has evolved to become a strength of Elasticsearch. And __types__ are on their way out.]
+
+Presumably well-structured data can be shipped to Elasticsearch directly by Beats, but less well-structured data
+(that may need to be parsed, processed, aggregated, transformed or enriched) must be passed to Logstash by Beats.
 
 ## Reference
 
