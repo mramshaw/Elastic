@@ -1,5 +1,7 @@
 # Elastic
 
+![Elasticsearch graphic](images/apple-icon-180x180.png)
+
 Getting up-to-speed with the "Elastic Stack" (formerly the "ELK stack") which consists of
  [Elasticsearch](http://www.elastic.co/products/elasticsearch),
  [Logstash](https://www.elastic.co/products/logstash), and
@@ -11,10 +13,19 @@ The content are as follows:
 
 * [Motivation](#motivation)
 * [Elasticsearch overview](#elasticsearch-overview)
+* [Use Cases](#use-cases)
 * [Kibana](#kibana)
+    * [Kibana tools](#kibana-tools)
+* [Searches](#searches)
 * [Aliases](#aliases)
+* [Version](#version)
+* [PUT](#put)
 * [Podcasts](#podcasts)
 * [Reference](#reference)
+    * [Glossary](#glossary)
+    * [Indices and Aliases](#indices-and-aliases)
+    * [AWS Developer Guide](#aws-developer-guide)
+    * [PUT and POST](#put-and-post)
 * [Credits](#credits)
 
 ## Motivation
@@ -22,11 +33,22 @@ The content are as follows:
 Having looked at [Cassandra with Python](https://github.com/mramshaw/Python_Cassandra), [Couchbase](https://github.com/mramshaw/RESTful-Couchbase) and [DynamoDB](https://github.com/mramshaw/DynamoDB),
  this time Elasticsearch is in the cross-hairs.
 
-Elasticsearch is very similiar to [Apache Solr](http://lucene.apache.org/solr/). The main difference seems to be that there are commercial SaaS offerings for Elasticsearch.
+Under the covers ElasticSearch uses [Apache Lucene](https://lucene.apache.org/).
 
-There are a number of options for Elasticsearch (on premise, etc), but I will be looking at the AWS service offering - which is called [Amazon Elasticsearch Service](https://aws.amazon.com/elasticsearch-service/).
+Elasticsearch is very similiar to [Apache Solr](http://lucene.apache.org/solr/).
+Both ElasticSearch and Solr are built on top of Lucene, and seem to offer roughly
+similiar features. It's worth remembering that ElasticSearch, while open-source,
+is backed by a commercial (as in for-profit) company.
 
-Amazon describes this service offering as follows:
+Amazon offers both as services: Elasticsearch is marketed as
+ [Amazon Elasticsearch Service](https://aws.amazon.com/elasticsearch-service/)
+ while Solr is marketed as [Amazon CloudSearch](https://aws.amazon.com/cloudsearch/).
+Amazon Elasticsearch Service is based on a cluster of managed servers (where scaling
+needs to be managed) while Amazon CloudSearch is a managed service which autoscales.
+
+There are a number of options for Elasticsearch (on premise, etc), but I will be looking at Amazon Elasticsearch Service.
+
+Amazon describes it as follows:
 
 > Amazon Elasticsearch Service is a fully managed service that makes it easy for you to deploy, secure, and operate Elasticsearch at scale with zero down time.
 
@@ -46,11 +68,19 @@ All of the above quotes are from: http://aws.amazon.com/elasticsearch-service/
 
 ## Elasticsearch Overview
 
-Elasticsearch is a __distributed__, __sharded__, database with __no required indices__.
+Elasticsearch is a __distributed__, __sharded__ database with __no required indices__.
+
+It is a __NoSQL__ database, so theoretically __schema-less__ (although the recommended practice is to define a schema).
 
 It is primarily oriented towards ___full-text search___.
 
-It seems to be very similiar to [Apache Cassandra](http://cassandra.apache.org/).
+In terms of NoSQL categories, it seems to usually be defined as a __real-time search and analytics engine__ first,
+and a __Document store__ second. Of course, many relational database also offer full-text search capabilities,
+however it is probably its real-time streaming characteristics that make Elasticsearch attractive.
+
+[As a document-store, it seem to offer a strong challenge to MongoDB. And it can also handle __search__.]
+
+Elasticsearch seems to be very similiar to [Apache Cassandra](http://cassandra.apache.org/).
 
 Cassandra has its own __CQL__ while Couchbase has __N1QL__; on the other hand Elasticsearch is __RESTful__.
 
@@ -65,9 +95,16 @@ Its terminology is a little weird - for instance it refers to what might normall
 
 Integrity is maintained with a [CAS](https://en.wikipedia.org/wiki/Compare-and-swap) (compare and swap) versioning mechanism.
 
-Under the covers ElasticSearch uses [Apache Lucene](https://lucene.apache.org/).
-
 It's a little unusual (for a database anyway) in that it offers __fuzzy search__ options.
+
+## Use Cases
+
+As noted above, Elasticsearch is optimized for __search__, and more specifically - ___full-text search___.
+
+Due to it's ability to ingest and scan documents, it is becoming very useful for __data science__ also.
+
+For log ingestion and analysis, offerings from __DataDog__ and __Splunk__ may be more feature-rich,
+but this is still a very common use case for Elasticsearch.
 
 ## Aliases
 
@@ -637,7 +674,7 @@ For instance, about __shards__:
 
 > A shard is a single Lucene instance
 
-#### Aliases
+#### Indices and Aliases
 
 A little long, but worth reading:
 
