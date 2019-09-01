@@ -2,7 +2,7 @@
 
 ![Elasticsearch graphic](images/apple-icon-180x180.png)
 
-Getting up-to-speed with the "Elastic Stack" (formerly the "ELK stack") which consists of
+Getting up-to-speed with the __Elastic Stack__ (formerly the __ELK stack__) which consists of
  [Elasticsearch](http://www.elastic.co/products/elasticsearch),
  [Logstash](https://www.elastic.co/products/logstash), and
  [Kibana](http://www.elastic.co/products/kibana).
@@ -38,7 +38,7 @@ Under the covers ElasticSearch uses [Apache Lucene](https://lucene.apache.org/).
 Elasticsearch is very similiar to [Apache Solr](http://lucene.apache.org/solr/).
 Both ElasticSearch and Solr are built on top of Lucene, and seem to offer roughly
 similiar features. It's worth remembering that ElasticSearch, while open-source,
-is backed by a commercial (as in for-profit) company.
+is backed by a commercial (for-profit) company.
 
 Amazon offers both as services: Elasticsearch is marketed as
  [Amazon Elasticsearch Service](https://aws.amazon.com/elasticsearch-service/)
@@ -58,7 +58,7 @@ Amazon describes it as follows:
 > [Logstash](http://aws.amazon.com/elasticsearch-service/the-elk-stack/logstash/) and other AWS Services, enabling you to securely ingest data from any source
 > and search, analyze, and visualize it in real time.
 
-[So a full ELK stack. This stack (now referred to as "Elastic Stack") is popular with developers.]
+[So a full ELK stack. This stack is popular with developers.]
 
 > Amazon Elasticsearch Service lets you pay only for what you use – there are no upfront costs or usage requirements.
 
@@ -75,7 +75,7 @@ It is a __NoSQL__ database, so theoretically __schema-less__ (although the recom
 It is primarily oriented towards ___full-text search___.
 
 In terms of NoSQL categories, it seems to usually be defined as a __real-time search and analytics engine__ first,
-and a __Document store__ second. Of course, many relational database also offer full-text search capabilities,
+and a __Document store__ second. Of course, many relational databases also offer full-text search capabilities,
 however it is probably its real-time streaming characteristics that make Elasticsearch attractive.
 
 [As a document-store, it seem to offer a strong challenge to MongoDB. And it can also handle __search__.]
@@ -105,6 +105,51 @@ Due to it's ability to ingest and scan documents, it is becoming very useful for
 
 For log ingestion and analysis, offerings from __DataDog__ and __Splunk__ may be more feature-rich,
 but this is still a very common use case for Elasticsearch.
+
+## AWS
+
+It is possible to create an AWS test cluster from https://www.elastic.co/ but it is also possible to do this from AWS itself.
+
+So I'll be exploring the AWS option.
+
+#### Create a domain
+
+[AWS refers to a cluster as an 'Amazon ES domain'.]
+
+Pretty straightforward from the AWS console:
+
+![Create ES domain 1](images/Create_ES_domain_1.png)
+
+And:
+
+![Create ES domain 2](images/Create_ES_domain_2.png)
+
+[Note that the __Instance type__ is set to __small__; the default is __Large__.]
+
+![Create ES domain 3](images/Create_ES_domain_3.png)
+
+[A VPC is perhaps overkill for a quick test; likewise Cognito.]
+
+![Create ES domain 4](images/Create_ES_domain_4.png)
+
+[Note the mandatory daily snapshot - specifically the time at which it occurs.]
+
+![Create ES domain 5](images/Create_ES_domain_5.png)
+
+[Note that it takes about 10 minutes to create the domain, also that there are no endpoints yet.]
+
+As we did not enable Cognito for Kibana we will need to whitelist our IP address.
+
+If using the AWS CLI, all of the above (plus IP address whitelisting) can be done as follows:
+
+```bash
+$ aws es create-elasticsearch-domain \
+ --domain-name test \
+ --elasticsearch-version 7.1 \
+ --elasticsearch-cluster-config InstanceType=t2.small.elasticsearch,InstanceCount=1 \
+ --ebs-options EBSEnabled=true,VolumeType=standard,VolumeSize=10 \
+ --access-policies '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"*"},"Action":["es:*"],"Condition":{"IpAddress":{"aws:SourceIp":["your_ip_address"]}}}]}'
+```
 
 ## Aliases
 
@@ -673,6 +718,9 @@ Probably the place to start:
 For instance, about __shards__:
 
 > A shard is a single Lucene instance
+
+Amazon layers their branding on top of Elastic's, so in AWS a cluster is known as an Amazon ES Domain.
+Probably other terms are similiarly translated.
 
 #### Indices and Aliases
 
