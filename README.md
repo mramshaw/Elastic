@@ -4,7 +4,7 @@
 
 Getting up-to-speed with the __Elastic Stack__ (formerly the __ELK stack__) which consists of
  [Elasticsearch](http://www.elastic.co/products/elasticsearch),
- [Logstash](https://www.elastic.co/products/logstash), and
+ [Logstash](http://www.elastic.co/products/logstash), and
  [Kibana](http://www.elastic.co/products/kibana).
 
 ![Elasticsearch graphic](images/logo-elastic-search-color-64.svg)
@@ -33,16 +33,19 @@ The content are as follows:
 * [Reference](#reference)
     * [Glossary](#glossary)
     * [Indices and Aliases](#indices-and-aliases)
+    * [Bulk API](#bulk-api)
+    * [Update documentation](#update-documentation)
+    * [Reindex API](#reindex-api)
     * [AWS Developer Guide](#aws-developer-guide)
     * [PUT and POST](#put-and-post)
 * [Credits](#credits)
 
 ## Motivation
 
-Having looked at [Cassandra with Python](https://github.com/mramshaw/Python_Cassandra), [Couchbase](https://github.com/mramshaw/RESTful-Couchbase) and [DynamoDB](https://github.com/mramshaw/DynamoDB),
+Having looked at [Cassandra with Python](http://github.com/mramshaw/Python_Cassandra), [Couchbase](http://github.com/mramshaw/RESTful-Couchbase) and [DynamoDB](http://github.com/mramshaw/DynamoDB),
  this time Elasticsearch is in the cross-hairs.
 
-Under the covers ElasticSearch uses [Apache Lucene](https://lucene.apache.org/).
+Under the covers ElasticSearch uses [Apache Lucene](http://lucene.apache.org/).
 
 Elasticsearch is very similiar to [Apache Solr](http://lucene.apache.org/solr/).
 Both ElasticSearch and Solr are built on top of Lucene, and seem to offer roughly
@@ -50,8 +53,8 @@ similiar features. It's worth remembering that ElasticSearch, while open-source,
 is backed by a commercial (for-profit) company.
 
 Amazon offers both as services: Elasticsearch is marketed as
- [Amazon Elasticsearch Service](https://aws.amazon.com/elasticsearch-service/)
- while Solr is marketed as [Amazon CloudSearch](https://aws.amazon.com/cloudsearch/).
+ [Amazon Elasticsearch Service](http://aws.amazon.com/elasticsearch-service/)
+ while Solr is marketed as [Amazon CloudSearch](http://aws.amazon.com/cloudsearch/).
 Amazon Elasticsearch Service is based on a cluster of managed servers (where scaling
 needs to be managed) while Amazon CloudSearch is a managed service which autoscales.
 
@@ -95,14 +98,14 @@ Cassandra has its own __CQL__ while Couchbase has __N1QL__; on the other hand El
 
 > Scales good for reads, ok’ish for writes
 
-From: https://vlkan.com/blog/post/2018/11/14/elasticsearch-primary-data-store/cncml-vienna-2019.pdf
+From: http://vlkan.com/blog/post/2018/11/14/elasticsearch-primary-data-store/cncml-vienna-2019.pdf
 
 Writes are handled via __shards__ while reads are handled by __replicas__. Replicas may be scaled up
 dynamically (for instance, for Black Friday).
 
 Its terminology is a little weird - for instance it refers to what might normally be called __databases__ as __indexes__.
 
-Integrity is maintained with a [CAS](https://en.wikipedia.org/wiki/Compare-and-swap) (compare and swap) versioning mechanism.
+Integrity is maintained with a [CAS](http://en.wikipedia.org/wiki/Compare-and-swap) (compare and swap) versioning mechanism.
 
 It's a little unusual (for a database anyway) in that it offers __fuzzy search__ options.
 
@@ -183,7 +186,7 @@ And:
 > We will talk more about the other uses for aliases later in the book. For now we will explain how to
 > use them to switch from an old index to a new index with zero downtime.
 
-All from: https://stackoverflow.com/questions/48907041/what-are-aliases-in-elasticsearch-for
+All from: http://stackoverflow.com/questions/48907041/what-are-aliases-in-elasticsearch-for
 
 ## Version
 
@@ -221,7 +224,7 @@ Response:
 
 Note the version number (affects API calls, etc).
 
-There was a breaking change going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](https://semver.org/) in mind.
+There was a breaking change going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
 
 ## PUT
 
@@ -570,7 +573,7 @@ Response:
 
 ## Leaf query clauses
 
-https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
+http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
 
 #### match
 
@@ -661,7 +664,7 @@ GET /_search
 
 ## term query may return poor results when searching text fields
 
-https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html#avoid-term-query-text-fields
+http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html#avoid-term-query-text-fields
 
 ## DELETE
 
@@ -741,7 +744,7 @@ Some useful references follow.
 
 Probably the place to start:
 
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/glossary.html
+	http://www.elastic.co/guide/en/elasticsearch/reference/current/glossary.html
 
 For instance, about __shards__:
 
@@ -754,17 +757,49 @@ Probably other terms are similiarly translated.
 
 A little long, but worth reading:
 
-    https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
+
+#### Bulk API
+
+> The bulk API makes it possible to perform many index/delete operations in a single API call. This can greatly increase the indexing speed.
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-bulk.html
+
+Note that a successful __create__ returns a __201__ HTTP status code while an unsuccessful __delete__ returns a __404__ HTTP status code.
+
+The __update__ (usually an __upsert__ I think) should normally return a __200__ HTTP status code.
+
+> When using the `update` action, `retry_on_conflict` can be used as a field in the action itself
+> (not in the extra payload line), to specify how many times an update should be retried in the case of a version conflict.
+
+And:
+
+> The `update` action payload supports the following options: `doc` (partial document), `upsert`, `doc_as_upsert`, `script`, `params` (for script),
+> `lang` (for script), and `_source`. See update documentation for details on the options.
+
+[Both quotes are from the article linked above.]
+
+#### Update documentation
+
+The update documentation is available here:
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-update.html
+
+#### Reindex API
+
+Note that the `destination` index must be set up before the reindex:
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html
 
 #### AWS Developer Guide
 
-Probably definitive when working with [Amazon Elasticsearch Service](https://aws.amazon.com/elasticsearch-service/):
+Probably definitive when working with [Amazon Elasticsearch Service](http://aws.amazon.com/elasticsearch-service/):
 
     http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/what-is-amazon-elasticsearch-service.html
 
 #### PUT and POST
 
-	https://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
+	http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
 
 __Versioning__ is complicated; can also specify __timeouts__.
 
