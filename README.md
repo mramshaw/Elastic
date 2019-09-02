@@ -22,12 +22,21 @@ The content are as follows:
 * [Motivation](#motivation)
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
+* [AWS](#aws)
+    * [Create a domain](#create-a-domain)
+* [Docker](#Docker)
+* [Version](#version)
+* [Health](#health)
+* [Aliases](#aliases)
+* [PUT](#put)
+* [POSTs](#posts)
+* [GET](#get)
+    * [Specific query](#specific-query)
 * [Kibana](#kibana)
     * [Kibana tools](#kibana-tools)
 * [Searches](#searches)
-* [Aliases](#aliases)
-* [Version](#version)
-* [PUT](#put)
+* [DELETE](#delete)
+    * [DELETE individual item](#delete-individual-item)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
 * [Reference](#reference)
@@ -163,30 +172,135 @@ $ aws es create-elasticsearch-domain \
  --access-policies '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"*"},"Action":["es:*"],"Condition":{"IpAddress":{"aws:SourceIp":["your_ip_address"]}}}]}'
 ```
 
-## Aliases
+## Docker
 
-A definition:
+Let's see what Docker images there are:
 
-> aliases are like soft links or shortcuts to actual indexes
->
-> the advantage is to be able to have an alias pointing to index1a while building or
-> re-indexing on index2b and the moment of swapping them is atomic thanks to the alias
+```bash
+$ docker search elasticsearch
+NAME                                 DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED
+elasticsearch                        Elasticsearch is a powerful open source sear…   3830                [OK]
+nshou/elasticsearch-kibana           Elasticsearch-7.1.1 Kibana-7.1.1                105                                     [OK]
+itzg/elasticsearch                   Provides an easily configurable Elasticsearc…   68                                      [OK]
+mobz/elasticsearch-head              elasticsearch-head front-end and standalone …   48
+elastichq/elasticsearch-hq           Official Docker image for ElasticHQ: Elastic…   36                                      [OK]
+elastic/elasticsearch                The Elasticsearch Docker image maintained by…   22
+taskrabbit/elasticsearch-dump        Import and export tools for elasticsearch       18                                      [OK]
+bitnami/elasticsearch                Bitnami Docker Image for Elasticsearch          18                                      [OK]
+lmenezes/elasticsearch-kopf          elasticsearch kopf                              18                                      [OK]
+barnybug/elasticsearch               Latest Elasticsearch 1.7.2 and previous rele…   17                                      [OK]
+esystemstech/elasticsearch           Debian based Elasticsearch packing for Lifer…   15
+monsantoco/elasticsearch             ElasticSearch Docker image                      11                                      [OK]
+mesoscloud/elasticsearch             [UNMAINTAINED] Elasticsearch                    9                                       [OK]
+justwatch/elasticsearch_exporter     Elasticsearch stats exporter for Prometheus     9
+blacktop/elasticsearch               Alpine Linux based Elasticsearch Docker Image   8                                       [OK]
+centerforopenscience/elasticsearch   Elasticsearch                                   4                                       [OK]
+barchart/elasticsearch-aws           Elasticsearch AWS node                          3
+dtagdevsec/elasticsearch             elasticsearch                                   3                                       [OK]
+bitnami/elasticsearch-exporter       Bitnami Elasticsearch Exporter Docker Image     2                                       [OK]
+phenompeople/elasticsearch           Elasticsearch is a powerful open source sear…   1                                       [OK]
+jetstack/elasticsearch-pet           An elasticsearch image for kubernetes PetSets   1                                       [OK]
+18fgsa/elasticsearch-ha              Built from https://github.com/18F/kubernetes…   0
+axway/elasticsearch-docker-beat      "Beat" extension to read logs of containers …   0                                       [OK]
+18fgsa/elasticsearch                 Built from https://github.com/docker-library…   0
+wreulicke/elasticsearch              elasticsearch                                   0                                       [OK]
+$
+```
 
-As:
+Okay, we will try the official release. Instructions are here:
 
-> Renaming an alias is a simple remove then add operation within the same API. This operation is atomic,
-> no need to worry about a short period of time where the alias does not point to an index
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/docker.html
 
-Also:
+Apache 2.0 licensed versions are here:
 
-> Multiple indices can be specified for an action
+    http://www.docker.elastic.co/
 
-And:
+[Note that Elastic do not use the `latest` tag (which seems like a good practice) so a __tagged__ release must be installed.]
 
-> We will talk more about the other uses for aliases later in the book. For now we will explain how to
-> use them to switch from an old index to a new index with zero downtime.
+```bash
+$ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+7.3.1: Pulling from elasticsearch/elasticsearch
+48914619bcd3: Pull complete
+c00e9e7aed99: Pull complete
+bfac725fd799: Pull complete
+f1fe76a8ef9b: Pull complete
+2a1b75592794: Pull complete
+f33ae02b8315: Pull complete
+ad8bc430d6cc: Pull complete
+Digest: sha256:d43c5b93c027fbbfc5b24a69a786f66d6d4059360d8c1b9defb661f68dc24c74
+Status: Downloaded newer image for docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+$
+```
 
-All from: http://stackoverflow.com/questions/48907041/what-are-aliases-in-elasticsearch-for
+Note that the virtual memory limit must be raised. On linux this is as follows:
+
+```bash
+$ sudo sysctl -w vm.max_map_count=262144
+[sudo] password for xxxxx:
+vm.max_map_count = 262144
+$
+```
+
+Run the docker images:
+
+```bash
+$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name es7.3.1 docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+...
+$
+```
+
+[As usual, Ctrl-C to stop.]
+
+And if we got to http://localhost:9200 in a browser, we should get:
+
+```
+{
+  "name" : "be637d19e825",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "7urUewFVT_i3pf7eCB1ssQ",
+  "version" : {
+    "number" : "7.3.1",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "4749ba6",
+    "build_date" : "2019-08-19T20:19:25.651794Z",
+    "build_snapshot" : false,
+    "lucene_version" : "8.1.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
+  },
+  "tagline" : "You Know, for Search"
+}
+```
+
+#### Kibana
+
+It looks like we don't get Kibana this way, so let's get that:
+
+```bash
+$ docker pull docker.elastic.co/kibana/kibana:7.3.1
+...
+$
+```
+
+The instructions are here:
+
+    http://www.elastic.co/guide/en/kibana/7.3/docker.html
+
+And run it:
+
+```bash
+$ docker run --link es7.3.1:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.3.1
+...
+$
+```
+
+[As usual, Ctrl-C to stop.]
+
+And if we got to http://localhost:5601 in a browser, we should a Kibana console.
+
+Click the wrench icon to navigate to the Kibana __Dev Tools__ console.
 
 ## Version
 
@@ -225,6 +339,45 @@ Response:
 Note the version number (affects API calls, etc).
 
 There was a breaking change going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
+
+## Health
+
+Let's check the health of our cluster:
+
+From the Kibana __Dev Tools__ console:
+
+```
+GET _cat/health?v
+```
+
+Which should look something like the following:
+
+![Kibana running](images/Kibana_running.png)
+
+## Aliases
+
+A definition:
+
+> aliases are like soft links or shortcuts to actual indexes
+>
+> the advantage is to be able to have an alias pointing to index1a while building or
+> re-indexing on index2b and the moment of swapping them is atomic thanks to the alias
+
+As:
+
+> Renaming an alias is a simple remove then add operation within the same API. This operation is atomic,
+> no need to worry about a short period of time where the alias does not point to an index
+
+Also:
+
+> Multiple indices can be specified for an action
+
+And:
+
+> We will talk more about the other uses for aliases later in the book. For now we will explain how to
+> use them to switch from an old index to a new index with zero downtime.
+
+All from: http://stackoverflow.com/questions/48907041/what-are-aliases-in-elasticsearch-for
 
 ## PUT
 
