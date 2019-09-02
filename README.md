@@ -25,6 +25,7 @@ The content are as follows:
 * [AWS](#aws)
     * [Create a domain](#create-a-domain)
 * [Docker](#Docker)
+    * [Dockerized Kibana](#dockerized-kibana)
 * [Version](#version)
 * [Health](#health)
 * [Aliases](#aliases)
@@ -252,7 +253,7 @@ $
 
 [As usual, Ctrl-C to stop.]
 
-And if we got to http://localhost:9200 in a browser, we should get:
+And if we go to http://localhost:9200 in a browser, we should get:
 
 ```
 {
@@ -274,7 +275,7 @@ And if we got to http://localhost:9200 in a browser, we should get:
 }
 ```
 
-#### Kibana
+#### Dockerized Kibana
 
 It looks like we don't get Kibana this way, so let's get that:
 
@@ -283,6 +284,8 @@ $ docker pull docker.elastic.co/kibana/kibana:7.3.1
 ...
 $
 ```
+
+[It's probably not critical that the Kibana version should match the Elasticsearch version.]
 
 The instructions are here:
 
