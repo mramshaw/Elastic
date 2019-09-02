@@ -1,14 +1,19 @@
 # Elastic
 
-![Elasticsearch graphic](images/logo-elastic-search-color-64.svg)
-![Kibana graphic](images/logo-kibana-64-color.svg)
-![Logstash graphic](images/logo-logstash-64-color.svg)
-![Beats graphic](images/logo-beats-64-color.svg)
+![Elasticsearch graphic](images/apple-icon-144x144.png)
 
 Getting up-to-speed with the __Elastic Stack__ (formerly the __ELK stack__) which consists of
  [Elasticsearch](http://www.elastic.co/products/elasticsearch),
  [Logstash](https://www.elastic.co/products/logstash), and
  [Kibana](http://www.elastic.co/products/kibana).
+
+![Elasticsearch graphic](images/logo-elastic-search-color-64.svg)
+![Logstash graphic](images/logo-logstash-64-color.svg)
+![Kibana graphic](images/logo-kibana-64-color.svg)
+
+And now [Beats](http://www.elastic.co/products/beats).
+
+![Beats graphic](images/logo-beats-64-color.svg)
 
 ## Contents
 
