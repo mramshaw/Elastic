@@ -46,6 +46,7 @@ The content are as follows:
     * [Bulk API](#bulk-api)
     * [Update documentation](#update-documentation)
     * [Reindex API](#reindex-api)
+    * [Upgrading Elasticsearch](#upgrading-elasticsearch)
     * [AWS Developer Guide](#aws-developer-guide)
     * [PUT and POST](#put-and-post)
 * [Credits](#credits)
@@ -301,7 +302,7 @@ $
 
 [As usual, Ctrl-C to stop.]
 
-And if we got to http://localhost:5601 in a browser, we should a Kibana console.
+And if we go to http://localhost:5601 in a browser, we should see a Kibana console.
 
 Click the wrench icon to navigate to the Kibana __Dev Tools__ console.
 
@@ -946,6 +947,12 @@ The update documentation is available here:
 Note that the `destination` index must be set up before the reindex:
 
     http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html
+
+#### Upgrading Elasticsearch
+
+AWS has a pretty good synopsis of their process for upgrading Elasticsearch:
+
+    http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-version-migration.html
 
 #### AWS Developer Guide
 
