@@ -954,6 +954,12 @@ AWS has a pretty good synopsis of their process for upgrading Elasticsearch:
 
     http://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-version-migration.html
 
+Elastic has a short summary also:
+
+    http://www.elastic.co/guide/en/cloud/current/ec-migrate-data.html
+
+[It's not particularly helpful, although it does recommend taking a snapshot first.]
+
 #### AWS Developer Guide
 
 Probably definitive when working with [Amazon Elasticsearch Service](http://aws.amazon.com/elasticsearch-service/):
