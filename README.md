@@ -36,12 +36,17 @@ The content are as follows:
 * [Kibana](#kibana)
     * [Kibana tools](#kibana-tools)
 * [Searches](#searches)
+* [Leaf query clauses](#leaf-query-clauses)
+    * [match](#match)
+    * [term](#term)
+    * [range](#range)
 * [DELETE](#delete)
     * [DELETE individual item](#delete-individual-item)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
 * [Reference](#reference)
     * [Glossary](#glossary)
+    * [Dates](#dates)
     * [Indices and Aliases](#indices-and-aliases)
     * [Bulk API](#bulk-api)
     * [Update documentation](#update-documentation)
@@ -101,7 +106,7 @@ In terms of NoSQL categories, it seems to usually be defined as a __real-time se
 and a __Document store__ second. Of course, many relational databases also offer full-text search capabilities,
 however it is probably its real-time streaming characteristics that make Elasticsearch attractive.
 
-[As a document-store, it seem to offer a strong challenge to MongoDB. And it can also handle __search__.]
+[As a document-store, it seems to offer a strong challenge to MongoDB. And it can also handle __search__.]
 
 Elasticsearch seems to be very similiar to [Apache Cassandra](http://cassandra.apache.org/).
 
@@ -115,6 +120,8 @@ Writes are handled via __shards__ while reads are handled by __replicas__. Repli
 dynamically (for instance, for Black Friday).
 
 Its terminology is a little weird - for instance it refers to what might normally be called __databases__ as __indexes__.
+
+[It seems these actually were just indexes - just with the data included (this enables re-indexing, which is a big plus).]
 
 Integrity is maintained with a [CAS](http://en.wikipedia.org/wiki/Compare-and-swap) (compare and swap) versioning mechanism.
 
@@ -342,7 +349,7 @@ Response:
 
 Note the version number (affects API calls, etc).
 
-There was a breaking change going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
+There were breaking changes going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
 
 ## Health
 
@@ -891,7 +898,7 @@ aggregation agents that can ship to either Elasticsearch or Logstash) and [Logst
 [Apparently geolocation has evolved to become a strength of Elasticsearch. And __types__ are on their way out.]
 
 Presumably well-structured data can be shipped to Elasticsearch directly by Beats, but less well-structured data
-(that may need to be parsed, processed, aggregated, transformed or enriched) must be passed to Logstash by Beats.
+(that may need to be parsed, processed, aggregated, transformed or enriched) must be passed to Logstash instead.
 
 ## Reference
 
@@ -909,6 +916,23 @@ For instance, about __shards__:
 
 Amazon layers their branding on top of Elastic's, so in AWS a cluster is known as an Amazon ES Domain.
 Probably other terms are similiarly translated.
+
+#### Dates
+
+Careful consideration needs to be paid to dates, as most queries will involve time-related processing or date ranges:
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/date.html
+
+Time processing in Elasticsearch is generally processed in either seconds or milliseconds, however __Elasticsearch 7.0__
+introduced nanosecond processing as an option (internally, Elasticsearch 7.0+ processing will use nanoseconds).
+
+Interestingly, Elasticsearch can support __multiple date formats__ at the same time:
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/date.html#multiple-date-formats
+
+For date processing with Javascript, there is [Luxon](http://moment.github.io/luxon/).
+
+[Luxon operates in milliseconds.]
 
 #### Indices and Aliases
 
