@@ -28,8 +28,8 @@ The content are as follows:
     * [Dockerized Kibana](#dockerized-kibana)
 * [Version](#version)
 * [Health](#health)
-* [Aliases](#aliases)
 * [PUT](#put)
+* [Aliases](#aliases)
 * [POSTs](#posts)
 * [GET](#get)
     * [Specific query](#specific-query)
@@ -254,7 +254,7 @@ $
 Run the docker images:
 
 ```bash
-$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name es7.3.1 docker.elastic.co/elasticsearch/elasticsearch:7.3.1
+$ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name es7.3.1 --rm docker.elastic.co/elasticsearch/elasticsearch:7.3.1
 ...
 $
 ```
@@ -302,7 +302,7 @@ The instructions are here:
 And run it:
 
 ```bash
-$ docker run --link es7.3.1:elasticsearch -p 5601:5601 docker.elastic.co/kibana/kibana:7.3.1
+$ docker run --link es7.3.1:elasticsearch -p 5601:5601 --name kibana7.3.1 --rm docker.elastic.co/kibana/kibana:7.3.1
 ...
 $
 ```
@@ -329,25 +329,25 @@ Response:
 
 ```
 {
-  "name" : "xxxxxxx",
-  "cluster_name" : "xxxxxxxxxxxx:xxx-xxxxxx",
-  "cluster_uuid" : "xxxxxxxxxxxxxxxxxxxxxx",
+  "name" : "b7f9cb7ad431",
+  "cluster_name" : "docker-cluster",
+  "cluster_uuid" : "uXuvtXXnQpSJ3I-F9VqxBg",
   "version" : {
-    "number" : "x.x.x",
-    "build_flavor" : "oss",
-    "build_type" : "zip",
-    "build_hash" : "xxxxxxx",
-    "build_date" : "2019-04-08T13:15:27.206923Z",
+    "number" : "7.3.1",
+    "build_flavor" : "default",
+    "build_type" : "docker",
+    "build_hash" : "4749ba6",
+    "build_date" : "2019-08-19T20:19:25.651794Z",
     "build_snapshot" : false,
-    "lucene_version" : "x.x.x",
-    "minimum_wire_compatibility_version" : "x.x.x",
-    "minimum_index_compatibility_version" : "x.x.x"
+    "lucene_version" : "8.1.0",
+    "minimum_wire_compatibility_version" : "6.8.0",
+    "minimum_index_compatibility_version" : "6.0.0-beta1"
   },
   "tagline" : "You Know, for Search"
 }
 ```
 
-Note the version number (affects API calls, etc).
+Note the version number (affects API calls, etc) which is __7.3.1__.
 
 There were breaking changes going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
 
@@ -364,6 +364,30 @@ GET _cat/health?v
 Which should look something like the following:
 
 ![Kibana running](images/Kibana_running.png)
+
+## PUT
+
+Let's create an index (database instance) first.
+
+From the Kibana __Dev Tools__ console:
+
+```
+PUT school
+```
+
+[Creates index - Click the green Play button to execute]
+
+Response:
+
+```
+{
+  "acknowledged" : true,
+  "shards_acknowledged" : true,
+  "index" : "school"
+}
+```
+
+To delete the index (database instance), there is [DELETE](#delete).
 
 ## Aliases
 
@@ -390,29 +414,104 @@ And:
 
 All from: http://stackoverflow.com/questions/48907041/what-are-aliases-in-elasticsearch-for
 
-## PUT
-
-Let's create an index (database instance) first.
+So let's create an alias.
 
 From the Kibana __Dev Tools__ console:
 
 ```
-PUT school
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "school", "alias" : "academia" } }
+    ]
+}
 ```
 
-[Creates index - Click the green Play button to execute]
+[Click the green Play button to execute]
 
 Response:
 
 ```
 {
-  "acknowledged" : true,
-  "shards_acknowledged" : true,
-  "index" : "school"
+  "acknowledged" : true
 }
 ```
 
-To delete the index (database instance), there is [DELETE](#delete).
+And check it exists (200 for yes, 404 fo no):
+
+```
+HEAD academia
+```
+
+[Click the green Play button to execute]
+
+Response:
+
+```
+200 - OK
+```
+
+And check out the statistics for this alias:
+
+```
+GET academia/_stats
+```
+
+And just for fun, <kbd>Ctrl-Enter</kbd> (on OS/X, <kbd>Command-Enter</kbd>) to execute:
+
+```
+{
+  "_shards" : {
+    "total" : 2,
+    "successful" : 1,
+    "failed" : 0
+  },
+  "_all" : {
+    "primaries" : {
+      "docs" : {
+
+    ...
+
+      }
+    },
+    "total" : {
+      "docs" : {
+
+    ...
+
+      }
+    }
+  },
+  "indices" : {
+    "school" : {
+      "uuid" : "JN_oqm2fTfCyjSMzWskbfA",
+      "primaries" : {
+        "docs" : {
+
+    ...
+
+        }
+      },
+      "total" : {
+        "docs" : {
+
+    ...
+
+        },
+        "fielddata" : {
+          "memory_size_in_bytes" : 0,
+          "evictions" : 0
+
+    ...
+
+        }
+      }
+    }
+  }
+}
+```
+
+[In general, use of `fielddata` is probably to be avoided.]
 
 ## POSTs
 
@@ -935,6 +1034,10 @@ For date processing with Javascript, there is [Luxon](http://moment.github.io/lu
 [Luxon operates in milliseconds.]
 
 #### Indices and Aliases
+
+The index APIs:
+
+    https//www.elastic.co/guide/en/elasticsearch/reference/current/indices.html
 
 A little long, but worth reading:
 
