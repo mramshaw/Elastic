@@ -29,6 +29,7 @@ The content are as follows:
 * [Version](#version)
 * [Health](#health)
 * [PUT](#put)
+* [Indices](#indices)
 * [Aliases](#aliases)
 * [POSTs](#posts)
 * [GET](#get)
@@ -313,7 +314,12 @@ $
 
 And if we go to http://localhost:5601 in a browser, we should see a Kibana console.
 
+If things are not synchonized yet, there will be a __Kibana server is not ready yet__ message.
+So wait a few seconds and try again.
+
 Click the wrench icon to navigate to the Kibana __Dev Tools__ console.
+
+Your last few Kibana Dev Tools sessions will be cached, which is a very nice feature.
 
 ## Version
 
@@ -371,6 +377,9 @@ Which should look something like the following:
 
 Let's create an index (database instance) first.
 
+[This step is actually optional as Elasticsearch will *auto-magically* create indices and types that
+ do not exist, but it is a good step to try in terms of getting familiar with Elasticsearch and Kibana.]
+
 From the Kibana __Dev Tools__ console:
 
 ```
@@ -390,6 +399,32 @@ Response:
 ```
 
 To delete the index (database instance), there is [DELETE](#delete).
+
+## Indices
+
+Having created an index, let's see what indices we have:
+
+From the Kibana __Dev Tools__ console:
+
+```
+GET /_cat/indices
+```
+
+[Click the green Play button to execute]
+
+Response:
+
+```
+green  open .kibana_task_manager Bw7bdH5oTBOPIwB7JrzXaQ 1 0 2 0 45.5kb 45.5kb
+yellow open school               HOGuhBS5TKCjpP84f-CnjQ 1 1 0 0   230b   230b
+green  open .kibana_1            DuPECNdXSJu0vaUeOnmwxA 1 0 3 0 11.7kb 11.7kb
+```
+
+[The `yellow` status for our schools index indicates we do not have the recommended number of replicas
+ for our school index, which is fine for a testing cluster. This is a warning status, where `red`
+ indicates an error condition and `green` signifies `all systems go`. So a standard traffic light.]
+
+Note that `/_cat/indices` will not show [Aliases](#aliases).
 
 ## Aliases
 
@@ -982,7 +1017,7 @@ Response:
 
 Bulk loading can be accessed at `/_bulk`.
 
-Using `curl` more schools can be loaded as follows:
+Using `curl` [more schools](./more_schools) can be loaded as follows:
 
 ```bash
 $ curl -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/school/_bulk?pretty --data-binary "@more_schools"; echo
