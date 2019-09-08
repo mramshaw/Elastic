@@ -317,9 +317,7 @@ And if we go to http://localhost:5601 in a browser, we should see a Kibana conso
 If things are not synchonized yet, there will be a __Kibana server is not ready yet__ message.
 So wait a few seconds and try again.
 
-Click the wrench icon to navigate to the Kibana __Dev Tools__ console.
-
-Your last few Kibana Dev Tools sessions will be cached, which is a very nice feature.
+Click the wrench icon (LHS) to navigate to the Kibana __Dev Tools__ console.
 
 ## Version
 
@@ -803,11 +801,22 @@ Response:
 
 Kibana is an open-source data visualization plugin for Elasticsearch.
 
+![Kibana tools](images/Kibana_tools.png)
+
+Click the wrench icon (LHS) to navigate to the Kibana __Dev Tools__ console.
+
+Your last few Kibana Dev Tools sessions will be cached, which is a very useful feature.
+
 #### Kibana tools
 
-CURL (from Spanner - 'Copy as cURL'):
+In addition to executing Elasticsearch queries (green Play button),
+the Dev Tools console in Kibana also has some nice tools.
+
+cURL (from Spanner - 'Copy as cURL'):
 
 	curl -XGET "http://localhost:9200/school/_search?q=rating:4.5"
+
+The 'Auto indent' feature is also useful - it toggles between expanded and compact formats.
 
 ## Searches
 
