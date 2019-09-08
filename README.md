@@ -42,6 +42,8 @@ The content are as follows:
     * [range](#range)
 * [DELETE](#delete)
     * [DELETE individual item](#delete-individual-item)
+* [Bulk loading](#bulk-loading)
+* [Aggregates](#aggregates)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
 * [Reference](#reference)
@@ -251,7 +253,7 @@ vm.max_map_count = 262144
 $
 ```
 
-Run the docker images:
+Run the docker image:
 
 ```bash
 $ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" --name es7.3.1 --rm docker.elastic.co/elasticsearch/elasticsearch:7.3.1
@@ -975,6 +977,40 @@ Response:
 ```
 
 [Note that __result__ is __deleted__; also __version__ is __2__ as index has been deleted and then re-created.]
+
+## Bulk loading
+
+Bulk loading can be accessed at `/_bulk`.
+
+Using `curl` more schools can be loaded as follows:
+
+```bash
+$ curl -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/school/_bulk?pretty --data-binary "@more_schools"; echo
+```
+
+[The __?pretty__ option means pretty-print the output. This can be omitted. Can optionally add the `--silent` option to curl.]
+
+## Aggregates
+
+Aggregates are kind of a fancy way to say ___summaries___.
+
+It's possible to specify that you only want the big picture (no details) by specifying `"size": 0`:
+
+```
+GET some_index/_search
+{
+  "query": {...},
+  "size": 0,
+  "aggregations": {
+    "dateHistogram": {
+      "date_histogram": {
+        "field": "@timestamp",
+        "fixed_interval": "10s"
+      }
+    }
+  }
+}
+```
 
 ## Podcasts
 
