@@ -37,6 +37,7 @@ The content are as follows:
 * [Kibana](#kibana)
     * [Kibana tools](#kibana-tools)
 * [Searches](#searches)
+    * [Case](#case)
 * [Leaf query clauses](#leaf-query-clauses)
     * [match](#match)
     * [term](#term)
@@ -49,11 +50,14 @@ The content are as follows:
     * [SE-Radio](#se-radio)
 * [Reference](#reference)
     * [Glossary](#glossary)
+    * [Mappings](#mappings)
     * [Dates](#dates)
+    * [Number formatting](#number-formatting)
     * [Indices and Aliases](#indices-and-aliases)
     * [Bulk API](#bulk-api)
     * [Update documentation](#update-documentation)
     * [Reindex API](#reindex-api)
+    * [Deprecation logging](#deprecation-logging)
     * [Upgrading Elasticsearch](#upgrading-elasticsearch)
     * [AWS Developer Guide](#aws-developer-guide)
     * [PUT and POST](#put-and-post)
@@ -810,7 +814,7 @@ Your last few Kibana Dev Tools sessions will be cached, which is a very useful f
 #### Kibana tools
 
 In addition to executing Elasticsearch queries (green Play button),
-the Dev Tools console in Kibana also has some nice tools.
+the Dev Tools console in Kibana also has some nice tools (diagonal wrench icon).
 
 cURL (from Spanner - 'Copy as cURL'):
 
@@ -819,6 +823,16 @@ cURL (from Spanner - 'Copy as cURL'):
 The 'Auto indent' feature is also useful - it toggles between expanded and compact formats.
 
 ## Searches
+
+It is possible to search without any criteria (a 'match all query', the equivalent of `head` or `tail` in *nix) to explore data.
+
+```
+GET /shakespeare/_search
+```
+
+There is a soft limit of 10,000 items (which can be increased). This is to prevent beginners from killing the cluster.
+
+#### Case
 
 Case is not important (it looks like text fields are canonicalized):
 
@@ -1096,6 +1110,14 @@ For instance, about __shards__:
 Amazon layers their branding on top of Elastic's, so in AWS a cluster is known as an Amazon ES Domain.
 Probably other terms are similiarly translated.
 
+#### Mappings
+
+It is impossible to do much in ES without understanding mappings. Read this page:
+
+    http://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
+
+Individual mappings (fees, in this case) may be checked with `GET /school/_mapping/field/fees`.
+
 #### Dates
 
 Careful consideration needs to be paid to dates, as most queries will involve time-related processing or date ranges:
@@ -1112,6 +1134,12 @@ Interestingly, Elasticsearch can support __multiple date formats__ at the same t
 For date processing with Javascript, there is [Luxon](http://moment.github.io/luxon/).
 
 [Luxon operates in milliseconds.]
+
+#### Number formatting
+
+It is possible to format numbers:
+
+    http://numeraljs.com/
 
 #### Indices and Aliases
 
@@ -1154,6 +1182,14 @@ The update documentation is available here:
 Note that the `destination` index must be set up before the reindex:
 
     http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html
+
+#### Deprecation logging
+
+This should be enabled, especially if you are planning on upgrading Elasticsearch in the near future.
+
+> In addition to regular logging, Elasticsearch allows you to enable logging of deprecated actions.
+
+from: http://www.elastic.co/guide/en/elasticsearch/reference/7.0/logging.html#deprecation-logging
 
 #### Upgrading Elasticsearch
 
