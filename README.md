@@ -48,6 +48,7 @@ The content are as follows:
 * [Aggregates](#aggregates)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
+    * [SE-Daily](#se-daily)
 * [Reference](#reference)
     * [Glossary](#glossary)
     * [Mappings](#mappings)
@@ -1092,6 +1093,20 @@ aggregation agents that can ship to either Elasticsearch or Logstash) and [Logst
 
 Presumably well-structured data can be shipped to Elasticsearch directly by Beats, but less well-structured data
 (that may need to be parsed, processed, aggregated, transformed or enriched) must be passed to Logstash instead.
+
+#### SE-Daily
+
+> Software Engineering Daily features daily interviews about technical software topics.
+
+An interesting chat about using ElasticSearch at Scale:
+
+    http://softwareengineeringdaily.com/2019/03/20/elasticsearch-at-scale-with-volkan-yazici/
+
+Jeff Meyerson interviews Volkan Yazici about his blog post "Using Elasticsearch as the Primary Data Store":
+
+    http://vlkan.com/blog/post/2018/11/14/elasticsearch-primary-data-store/
+
+[Interesting and well worth a listen.]
 
 ## Reference
 
