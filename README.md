@@ -1194,6 +1194,16 @@ The update documentation is available here:
 
 #### Reindex API
 
+Indices (database instances) are - for all practical purposes - immutable.
+
+[It's possible to add fields, and change the display formats of existing fields,
+ but that's about it.]
+
+In order to make any changes to the field mappings, it is pretty much required to reindex.
+
+This can actually be pretty fast: with a medium-sized cluster, millions of documents can
+ be reindexed in a matter of minutes.
+
 Note that the `destination` index must be set up before the reindex:
 
     http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-reindex.html
