@@ -1106,6 +1106,17 @@ Jeff Meyerson interviews Volkan Yazici about his blog post "Using Elasticsearch 
 
     http://vlkan.com/blog/post/2018/11/14/elasticsearch-primary-data-store/
 
+Summary points:
+
+* Elasticsearch does not handle frequent updates particularly well
+* Dynamic fields such as ___prices___ are not normally completely up-to-date but need to be in the index so as to be searchable
+* Nested fields (or objects) can be problematic
+* Great for real-time streaming (which probably correlates with eventual consistency)
+
+And a quote:
+
+> Cassandra is really difficult to operate if you want to have it in your own premises. But compared with that Elasticsearch, you can get it right without breaking a sweat.
+
 [Interesting and well worth a listen.]
 
 ## Reference
