@@ -35,8 +35,11 @@ The content are as follows:
 * [GET](#get)
     * [Specific query](#specific-query)
 * [Kibana](#kibana)
+    * [Useful commands](#useful-commands)
+    * [Intellisense](#intellisense)
     * [Kibana tools](#kibana-tools)
 * [Searches](#searches)
+    * [How to override the 10,000 items query limit](#how-to-override-the-10000-items-query-limit)
     * [Case](#case)
 * [Leaf query clauses](#leaf-query-clauses)
     * [match](#match)
@@ -44,6 +47,7 @@ The content are as follows:
     * [range](#range)
 * [DELETE](#delete)
     * [DELETE individual item](#delete-individual-item)
+    * [DELETE items](#delete-items)
 * [Bulk loading](#bulk-loading)
 * [Aggregates](#aggregates)
 * [Podcasts](#podcasts)
@@ -477,7 +481,7 @@ Response:
 }
 ```
 
-And check it exists (200 for yes, 404 fo no):
+And check it exists (200 for yes, 404 for no):
 
 ```
 HEAD academia
@@ -812,6 +816,69 @@ Click the wrench icon (LHS) to navigate to the Kibana __Dev Tools__ console.
 
 Your last few Kibana Dev Tools sessions will be cached, which is a very useful feature.
 
+#### Useful commands
+
+Check cluster is running:
+
+    GET /
+
+Check cluster health:
+
+    GET _cat/health?v
+
+List all indices:
+
+    GET _cat/indices?v
+
+List all aliases:
+
+    GET _cat/aliases?v
+
+List an index's aliases, mappings and settings:
+
+    GET some_index
+
+List _only_ an index's mappings:
+
+    GET some_index/_mapping
+
+How to check a field's mapping:
+
+    GET some_index/_mapping/field/some_field
+
+In general leading slashes may be omitted.
+
+For human-readable output add __?v__ to the end of the initial line:
+
+    GET _cat/indices
+
+Gives:
+
+```
+yellow open some_index           JDyFX-XjQMu95f3KXZnPpQ 1 1 1 0    5kb    5kb
+green  open .kibana_task_manager 4wLH-SPCRTKreXpzmjmhoA 1 0 2 0 79.1kb 79.1kb
+green  open .kibana_1            Un0M5PpqTlWDlib_qmsXGw 1 0 4 1 23.9kb 23.9kb
+```
+
+While:
+
+    GET _cat/indices?v
+
+Gives:
+
+```
+health status index                uuid                   pri rep docs.count docs.deleted store.size pri.store.size
+yellow open   some_index           JDyFX-XjQMu95f3KXZnPpQ   1   1          1            0        5kb            5kb
+green  open   .kibana_task_manager 4wLH-SPCRTKreXpzmjmhoA   1   0          2            0     79.1kb         79.1kb
+green  open   .kibana_1            Un0M5PpqTlWDlib_qmsXGw   1   0          4            1     23.9kb         23.9kb
+```
+
+#### Intellisense
+
+Kibana has a really useful `Intellisense` auto-complete feature:
+
+![Intellisense](images/Intellisense.png)
+
 #### Kibana tools
 
 In addition to executing Elasticsearch queries (green Play button),
@@ -831,7 +898,35 @@ It is possible to search without any criteria (a 'match all query', the equivale
 GET /shakespeare/_search
 ```
 
-There is a soft limit of 10,000 items (which can be increased). This is to prevent beginners from killing the cluster.
+#### How to override the 10,000 items query limit
+
+There is a soft limit of 10,000 items on queries. This is to prevent runaway queries from killing the cluster.
+
+[The 10,000 items soft limit for queries was introduced with Elasticsearch 7.0+]
+
+To report on more than 10,000 items, add the following line:
+
+`"track_total_hits": true,`
+
+As in:
+
+```
+GET some_index/_search
+{
+  "track_total_hits": true,
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "some_field"
+        }
+      }
+    }
+  }
+}
+```
+
+[This is a query for all documents that do not contain the term 'some_field'.]
 
 #### Case
 
@@ -992,7 +1087,7 @@ http://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-qu
 
 ## DELETE
 
-Deletes the specified index (and apparently all of the indexed data as well):
+Deletes the specified index (and all of the indexed data as well):
 
 ```
 DELETE school
@@ -1036,6 +1131,23 @@ Response:
 ```
 
 [Note that __result__ is __deleted__; also __version__ is __2__ as index has been deleted and then re-created.]
+
+#### DELETE items
+
+If you are brave, things like this usually work:
+
+```
+DELETE some_index
+{
+ "query": {
+   "exists": {
+     "field": "some_field"
+   }
+ }
+}
+```
+
+[The risk of deleting more documents than you intended hardly needs to be stated.]
 
 ## Bulk loading
 
@@ -1109,7 +1221,7 @@ Jeff Meyerson interviews Volkan Yazici about his blog post "Using Elasticsearch 
 Summary points:
 
 * Elasticsearch does not handle frequent updates particularly well
-* Dynamic fields such as ___prices___ are not normally completely up-to-date but need to be in the index so as to be searchable
+* Dynamic fields such as ___prices___ are not normally completely up-to-date but need to be indexed so as to be searchable
 * Nested fields (or objects) can be problematic
 * Great for real-time streaming (which probably correlates with eventual consistency)
 
