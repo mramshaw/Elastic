@@ -62,6 +62,7 @@ The content are as follows:
 * [Reference](#reference)
     * [Glossary](#glossary)
     * [Mappings](#mappings)
+    * [Mappings and Amazon Elasticsearch Service](#mappings-and-amazon-elasticsearch-service)
     * [Dates](#dates)
     * [Number formatting](#number-formatting)
     * [Indices and Aliases](#indices-and-aliases)
@@ -1329,6 +1330,12 @@ It is impossible to do much in ES without understanding mappings. Read this page
     http://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html
 
 Individual mappings (fees, in this case) may be checked with `GET /school/_mapping/field/fees`.
+
+#### Mappings and Amazon Elasticsearch Service
+
+If using Amazon Elasticsearch Service, their console can be used to view index mappings:
+
+![AWS Kibana mappings](images/Kibana_mappings.png)
 
 #### Dates
 
