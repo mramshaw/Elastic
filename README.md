@@ -401,7 +401,9 @@ and not simply a __minor release__.
 
 [I have not tested this so it may well be that __interval__ will not actually be removed until the next major release,
  however no developer really likes breaking changes and there seem to have been far too many of these during the brief
- time that I have been working with Elasticsearch.]
+ time that I have been working with Elasticsearch. The problem with breaking changes is not so much that code needs to
+ be changed - every developer expects and understands this - but that it then needs to be ___tested___ afterwards.
+ Testing code that may have been running happily for some time can often turn out to be a non-trivial problem.]
 
 ## Health
 
