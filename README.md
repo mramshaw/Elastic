@@ -36,8 +36,12 @@ The content are as follows:
     * [Specific query](#specific-query)
 * [Kibana](#kibana)
     * [Useful commands](#useful-commands)
+    * [Leading slashes](#leading-slashes)
+    * [Human-readable output](#human-readable-output)
     * [Intellisense](#intellisense)
     * [Kibana tools](#kibana-tools)
+    * [Ctrl-F is your friend](#ctrl-f-is-your-friend)
+    * [Debugging](#debugging)
 * [Searches](#searches)
     * [How to override the 10,000 items query limit](#how-to-override-the-10000-items-query-limit)
     * [Case](#case)
@@ -49,6 +53,7 @@ The content are as follows:
     * [DELETE individual item](#delete-individual-item)
     * [DELETE items](#delete-items)
 * [Bulk loading](#bulk-loading)
+* [Index/Alias problems](#indexalias-problems)
 * [Aggregates](#aggregates)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
@@ -362,6 +367,8 @@ Response:
 }
 ```
 
+[This should exactly match what we got from our ES cluster via our http://localhost:9200 URL.]
+
 Note the version number (affects API calls, etc) which is __7.3.1__.
 
 There were breaking changes going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
@@ -373,7 +380,7 @@ Let's check the health of our cluster:
 From the Kibana __Dev Tools__ console:
 
 ```
-GET _cat/health?v
+GET /_cat/health?v
 ```
 
 Which should look something like the following:
@@ -824,33 +831,42 @@ Check cluster is running:
 
 Check cluster health:
 
-    GET _cat/health?v
+    GET /_cat/health?v
 
 List all indices:
 
-    GET _cat/indices?v
+    GET /_cat/indices?v
 
 List all aliases:
 
-    GET _cat/aliases?v
+    GET /_cat/aliases?v
 
 List an index's aliases, mappings and settings:
 
-    GET some_index
+    GET /some_index
 
 List _only_ an index's mappings:
 
-    GET some_index/_mapping
+    GET /some_index/_mapping
+
+    GET /some_alias/_mapping
 
 How to check a field's mapping:
 
-    GET some_index/_mapping/field/some_field
+    GET /some_index/_mapping/field/some_field
 
-In general leading slashes may be omitted.
+    GET /some_alias/_mapping/field/some_field
+
+#### Leading slashes
+
+In general leading slashes may be omitted. However, as they are *sometimes* needed,
+perhaps a better practice is to get into the habit of ___always___ using a leading slash.
+
+#### Human-readable output
 
 For human-readable output add __?v__ to the end of the initial line:
 
-    GET _cat/indices
+    GET /_cat/indices
 
 Gives:
 
@@ -862,7 +878,7 @@ green  open .kibana_1            Un0M5PpqTlWDlib_qmsXGw 1 0 4 1 23.9kb 23.9kb
 
 While:
 
-    GET _cat/indices?v
+    GET /_cat/indices?v
 
 Gives:
 
@@ -889,6 +905,26 @@ cURL (from Spanner - 'Copy as cURL'):
 	curl -XGET "http://localhost:9200/school/_search?q=rating:4.5"
 
 The 'Auto indent' feature is also useful - it toggles between expanded and compact formats.
+It will only work for correctly-formatted JSON, which can be a quick and convenient way to
+check for correctly-formed JSON.
+
+#### Ctrl-F is your friend
+
+The workspaces in Kibana can get pretty crowded very quickly, so being able to find things
+via ___searching___ is a very nice feature. It is possible to search in both the __query__
+and the __results__ panels, as the following screencap shows:
+
+![Ctrl-F is your friend](images/Ctrl-F_is_your_friend.png)
+
+#### Debugging
+
+Although the Kibana workspace can include dozens of queries, the results panel will always
+refer to the current Elasticsearch command as if it had been executed in isolation.
+
+Spacing out your query so it starts on a line ending in a __1__ should make debugging and
+problems slightly easier, as the following annotated screencap shows:
+
+![Dealing in tens](images/Dealing_in_tens.png)
 
 ## Searches
 
@@ -1160,6 +1196,15 @@ $ curl -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/school/_bul
 ```
 
 [The __?pretty__ option means pretty-print the output. This can be omitted. Can optionally add the `--silent` option to curl.]
+
+## Index/Alias problems
+
+It is quite easy to get into a chicken & egg situation with indices and aliases. Apparently this is a common enough
+problem that there is a pretty easy fix:
+
+![Index/Alias remapping](images/Index_Alias.png)
+
+From: https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
 
 ## Aggregates
 
