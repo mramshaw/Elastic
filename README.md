@@ -27,6 +27,7 @@ The content are as follows:
 * [Docker](#Docker)
     * [Dockerized Kibana](#dockerized-kibana)
 * [Version](#version)
+* [Elasticsearch and Semver](#elasticsearch-and-semver)
 * [Health](#health)
 * [PUT](#put)
 * [Indices](#indices)
@@ -371,7 +372,35 @@ Response:
 
 Note the version number (affects API calls, etc) which is __7.3.1__.
 
-There were breaking changes going from 6.x.x versions -> 7.x.x versions, so keep [Semantic Versioning](http://semver.org/) in mind.
+## Elasticsearch and Semver
+
+THIS POINT CANNOT BE STRESSED ENOUGH. YOU HAVE BEEN WARNED!
+
+Elastic does not follow the standard practice (usually referred to as __Semver__ or [Semantic Versioning](http://semver.org/)
+of only releasing breaking changes with major releases.
+
+[This is based upon my own personal experience, but feel free to disregard my comments.]
+
+While it should be expected there *might* be breaking changes going from a 6.y.z version to a 7.y.z version,
+it seems there are often breaking changes going from a x.1.z version to an x.2.z version. As an example, for
+creating aggregate histograms in Elasticsearch __7.1.1__ versus __7.2.1__, the ___interval___ keyword was
+deprecated and replaced with ___calendar_interval___ and/or ___fixed_interval___.
+
+Compare:
+
+    https://www.elastic.co/guide/en/elasticsearch/reference/7.1/search-aggregations-bucket-datehistogram-aggregation.html
+
+And:
+
+    https://www.elastic.co/guide/en/elasticsearch/reference/7.2/search-aggregations-bucket-datehistogram-aggregation.html
+
+While it may be that the new terms have clearer semantics than the old term, and while I applaud Elastic for continuing to
+support and expand their software, I think a good argument could be made that this type of change requires a __major release__
+ - not a __minor release__.
+
+[I have not tested this so it may well be that __interval__ will not actually be removed until the next major release,
+ however no developer really likes breaking changes and there seem to have been far too many of these during the brief
+ time that I have been working with Elasticsearch.]
 
 ## Health
 
@@ -1410,7 +1439,7 @@ __Versioning__ is complicated; can also specify __timeouts__.
 
 ## Credits
 
-While I mostly did my own experiments, I started from:
+While most of this is from my painful experiences with wrangling Elasticsearch, I started from:
 
 	http://www.tutorialspoint.com/elasticsearch/elasticsearch_populate.htm
 
