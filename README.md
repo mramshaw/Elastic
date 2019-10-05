@@ -376,7 +376,7 @@ Note the version number (affects API calls, etc) which is __7.3.1__.
 
 THIS POINT CANNOT BE STRESSED ENOUGH. YOU HAVE BEEN WARNED!
 
-Elastic does not follow the standard practice (usually referred to as __Semver__ or [Semantic Versioning](http://semver.org/)
+Elastic does not follow the standard practice (usually referred to as __Semver__ or [Semantic Versioning](http://semver.org/))
 of only releasing breaking changes with major releases.
 
 [This is based upon my own personal experience, but feel free to disregard my comments.]
@@ -396,7 +396,7 @@ And:
 
 While it may be that the new terms have clearer semantics than the old term, and while I applaud Elastic for continuing to
 support and expand their software, I think a good argument could be made that this type of change requires a __major release__
- - not a __minor release__.
+and not simply a __minor release__.
 
 [I have not tested this so it may well be that __interval__ will not actually be removed until the next major release,
  however no developer really likes breaking changes and there seem to have been far too many of these during the brief
