@@ -138,9 +138,9 @@ From: http://vlkan.com/blog/post/2018/11/14/elasticsearch-primary-data-store/cnc
 Writes are handled via __shards__ while reads are handled by __replicas__. Replicas may be scaled up
 dynamically (for instance, for Black Friday).
 
-Its terminology is a little weird - for instance it refers to what might normally be called __databases__ as __indexes__.
+Its terminology is a little weird - for instance it refers to what might normally be called __databases__ as __indices__.
 
-[It seems these actually were just indexes - just with the data included (this enables re-indexing, which is a big plus).]
+[It seems these actually were just indices - just with the data included (this enables re-indexing, which is a big plus).]
 
 Integrity is maintained with a [CAS](http://en.wikipedia.org/wiki/Compare-and-swap) (compare and swap) versioning mechanism.
 
@@ -399,10 +399,10 @@ While it may be that the new terms have clearer semantics than the old term, and
 support and expand their software, I think a good argument could be made that this type of change requires a __major release__
 and not simply a __minor release__.
 
-[I have not tested this so it may well be that __interval__ will not actually be removed until the next major release,
+[I have not tested this so it may well be that ___interval___ will not actually be removed until the next major release,
  however no developer really likes breaking changes and there seem to have been far too many of these during the brief
  time that I have been working with Elasticsearch. The problem with breaking changes is not so much that code needs to
- be changed - every developer expects and understands this - but that it then needs to be ___tested___ afterwards.
+ be changed - every developer expects and understands this - but that it then needs to be __tested__ afterwards.
  Testing code that may have been running happily for some time can often turn out to be a non-trivial problem.]
 
 ## Health
@@ -998,7 +998,8 @@ GET some_index/_search
 
 #### Case
 
-Case is not important (it looks like text fields are canonicalized):
+Case is important - in some cases only lower-case will match (presumably text fields are canonicalized,
+so "USD" will only match if "usd" is requested), whereas in other situations only the exact text will match:
 
 ```
 GET /_search
@@ -1227,7 +1228,8 @@ Using `curl` [more schools](./more_schools) can be loaded as follows:
 $ curl -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/school/_bulk?pretty --data-binary "@more_schools"; echo
 ```
 
-[The __?pretty__ option means pretty-print the output. This can be omitted. Can optionally add the `--silent` option to curl.]
+[The __?pretty__ option means pretty-print the output. This can be omitted. Can optionally add the `--silent` option to curl.
+ The `; echo` part at the end is simply to get a newline so that our console output is readable.]
 
 ## Index/Alias problems
 
