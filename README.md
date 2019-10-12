@@ -59,6 +59,7 @@ The content are as follows:
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
     * [SE-Daily](#se-daily)
+    * [The Changelog](#the-changelog)
 * [Reference](#reference)
     * [Glossary](#glossary)
     * [Mappings](#mappings)
@@ -1309,6 +1310,20 @@ And a quote:
 > Cassandra is really difficult to operate if you want to have it in your own premises. But compared with that Elasticsearch, you can get it right without breaking a sweat.
 
 [Interesting and well worth a listen.]
+
+#### The Changelog
+
+> News and podcasts for developers
+
+`The Changelog` is a podcast is its right, as well as an umbrella organization for various other interesting podcasts
+
+Jerod and Adam talk with Philipp Krenn about Elasticsearch and doubling down on "open"
+
+    http://changelog.com/podcast/292
+
+Some interesting discussions about software licenses and Elasticsearch as a replacement for PostgreSQL's full-text search
+
+[Some good background about search in general and Elasticsearch in particular.]
 
 ## Reference
 
