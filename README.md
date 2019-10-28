@@ -23,7 +23,7 @@ The content are as follows:
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
 * [AWS](#aws)
-    * [Create a domain](#create-a-domain)
+* [GCP](#gcp)
 * [Docker](#Docker)
     * [Dockerized Kibana](#dockerized-kibana)
 * [Version](#version)
@@ -94,7 +94,10 @@ Amazon offers both as services: Elasticsearch is marketed as
 Amazon Elasticsearch Service is based on a cluster of managed servers (where scaling
 needs to be managed) while Amazon CloudSearch is a managed service which autoscales.
 
-There are a number of options for Elasticsearch (on premise, etc), but I will be looking at Amazon Elasticsearch Service.
+There are a number of options for Elasticsearch (on premise, etc), but I will be looking at
+[Amazon Elasticsearch Service](#amazon-elasticsearch-service).
+
+#### Amazon Elasticsearch Service
 
 Amazon describes it as follows:
 
@@ -160,46 +163,12 @@ but this is still a very common use case for Elasticsearch.
 
 It is possible to create an AWS test cluster from http://www.elastic.co/ but it is also possible to do this from AWS itself.
 
-So I'll be exploring the AWS option.
+Follow the link to see the steps involved with the [AWS option](01-Amazon_Elasticsearch_Service.md).
 
-#### Create a domain
+## GCP
 
-[AWS refers to a cluster as an 'Amazon ES domain'.]
-
-Pretty straightforward from the AWS console:
-
-![Create ES domain 1](images/Create_ES_domain_1.png)
-
-And:
-
-![Create ES domain 2](images/Create_ES_domain_2.png)
-
-[Note that the __Instance type__ is set to __small__; the default is __large__.]
-
-![Create ES domain 3](images/Create_ES_domain_3.png)
-
-[A VPC is perhaps overkill for a quick test; likewise Cognito.]
-
-![Create ES domain 4](images/Create_ES_domain_4.png)
-
-[Note the mandatory daily snapshot - specifically the time at which it occurs.]
-
-![Create ES domain 5](images/Create_ES_domain_5.png)
-
-[Note that it takes about 10 minutes to create the domain, also that there are no endpoints yet.]
-
-As we did not enable Cognito for Kibana we will need to whitelist our IP address.
-
-If using the AWS CLI, all of the above (plus IP address whitelisting) can be done as follows:
-
-```bash
-$ aws es create-elasticsearch-domain \
- --domain-name test \
- --elasticsearch-version 7.1 \
- --elasticsearch-cluster-config InstanceType=t2.small.elasticsearch,InstanceCount=1 \
- --ebs-options EBSEnabled=true,VolumeType=standard,VolumeSize=10 \
- --access-policies '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"*"},"Action":["es:*"],"Condition":{"IpAddress":{"aws:SourceIp":["your_ip_address"]}}}]}'
-```
+Of course, Elasticsearch is also available on [GCP](http://www.elastic.co/about/partners/google-cloud-platform),
+which may in fact be a stronger option than the AWS offering (which tends to lag behind the ES releases).
 
 ## Docker
 
@@ -1315,7 +1284,7 @@ And a quote:
 
 > News and podcasts for developers
 
-`The Changelog` is a podcast is its right, as well as an umbrella organization for various other interesting podcasts
+[The Changelog](http://changelog.com/) is a podcast is its right, as well as an umbrella organization for various other interesting podcasts
 
 Jerod and Adam talk with Philipp Krenn about Elasticsearch and doubling down on "open"
 
