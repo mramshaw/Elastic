@@ -1,14 +1,14 @@
 # Docker
 
-The steps to follow to install Elasticsearch with Docker.
+![Docker graphic](images/Docker-R-Logo-08-2018-Monochomatic-RGB_Moby-x1.png)
 
-![Beats graphic](images/logo-beats-64-color.svg)
+The steps to follow to install Elasticsearch with Docker.
 
 ## Contents
 
 The content are as follows:
 
-* [Dockerized Elasticsearch](#docker-elasticsearch)
+* [Dockerized Elasticsearch](#dockerized-elasticsearch)
 * [Dockerized Kibana](#dockerized-kibana)
 
 ## Dockerized Elasticsearch

@@ -22,10 +22,11 @@ The content are as follows:
 * [Motivation](#motivation)
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
-* [AWS](#aws)
-* [GCP](#gcp)
-* [Docker](docker)
-* [Kubernetes](#kubernetes)
+* [Creating a cluster](#creating-a-cluster)
+    * [AWS](#aws)
+    * [GCP](#gcp)
+    * [Docker](#docker)
+    * [Kubernetes](#kubernetes)
 * [Version](#version)
 * [Elasticsearch and Semver](#elasticsearch-and-semver)
 * [Health](#health)
@@ -165,22 +166,26 @@ eventualities.
 
 Elasticsearch also offers easy integration for [Machine Learning](http://www.elastic.co/what-is/elasticsearch-machine-learning).
 
-## AWS
+## Creating a cluster
+
+There are a number of options for creating an Elasticsearch cluster.
+
+#### AWS
 
 It is possible to create an AWS test cluster from http://www.elastic.co/ but it is also possible to do this from AWS itself.
 
 Follow the link to see the steps involved with the [AWS option](01-Amazon_Elasticsearch_Service.md).
 
-## GCP
+#### GCP
 
 Of course, Elasticsearch is also available on [GCP](http://www.elastic.co/about/partners/google-cloud-platform),
 which may in fact be a stronger option than the AWS offering (which tends to lag behind the ES releases).
 
-## Docker
+#### Docker
 
 Follow the link to see the steps involved with the [Docker option](02-Docker.md).
 
-## Kubernetes
+#### Kubernetes
 
 And of course, if ES is available on Docker, it's no surprise to see it available on
 [Kubernetes](http://www.elastic.co/products/elastic-cloud-kubernetes) - where it can
