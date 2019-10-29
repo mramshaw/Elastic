@@ -57,6 +57,9 @@ The content are as follows:
 * [Bulk loading](#bulk-loading)
 * [Index/Alias problems](#indexalias-problems)
 * [Aggregates](#aggregates)
+* [Beats and Logstash](#beats-and-logstash)
+    * [Beats](#beats)
+    * [Logstash](#logstash)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
     * [SE-Daily](#se-daily)
@@ -75,6 +78,7 @@ The content are as follows:
     * [Upgrading Elasticsearch](#upgrading-elasticsearch)
     * [AWS Developer Guide](#aws-developer-guide)
     * [PUT and POST](#put-and-post)
+* [To Do](#to-do)
 * [Credits](#credits)
 
 ## Motivation
@@ -1120,6 +1124,27 @@ GET some_index/_search
 }
 ```
 
+## Beats and Logstash
+
+Both [Beats](http://www.elastic.co/products/beats) and [Logstash](http://www.elastic.co/products/logstash)
+are aggregation agents. Logstash can ship to Elasticsearch while Beats can ship to either Logstash or to
+Elasticsearch directly.
+
+I have yet to determine how they differ, but at first glance it seems that Beats are a "push" arrangement
+while Logstash is more of a "pull" arrangement. However this is merely a guess on my part. Presumably
+Logstash itself can either poll or receive, as it can be used to aggregate/enrich data from Beats.
+
+#### Beats
+
+These seem to be small modules that are designed for specific uses, such as network and/or packet monitors
+and the like.
+
+[There is also `Heartbeat` which can be used to monitor system uptime data.]
+
+#### Logstash
+
+As far as I can tell, this is more of a traditional log ingestion tool.
+
 ## Podcasts
 
 Some of the following podcast episodes may be helpful for getting an overview of Elasticsearch.
@@ -1319,6 +1344,10 @@ Probably definitive when working with [Amazon Elasticsearch Service](http://aws.
 	http://www.elastic.co/guide/en/elasticsearch/reference/current/docs-index_.html
 
 __Versioning__ is complicated; can also specify __timeouts__.
+
+## To Do
+
+- [ ] Investigate [Beats](http://www.elastic.co/products/beats) & [Logstash](http://www.elastic.co/products/logstash) (and how they differ)
 
 ## Credits
 
