@@ -22,7 +22,7 @@ The content are as follows:
 * [Motivation](#motivation)
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
-    * [Products Catalogues](#products-catalogues)
+    * [Product Catalogues](#products-catalogues)
     * [Data Visualization](#data-visualization)
     * [Log ingestion and analysis](#log-ingestion-and-analysis)
     * [Data assembly, standardization and enrichment](#data-assembly-standardization-and-enrichment)
@@ -168,9 +168,9 @@ As noted above, Elasticsearch is optimized for __search__, and more specifically
 
 Even so, it can be put to a surprisingly varied number of uses, some of which are listed below.
 
-#### Products Catalogues
+#### Product Catalogues
 
-As a result of its ___full-text search___ capabilities, Elasticsearch is ideal for Products Catalogues.
+As a result of its ___full-text search___ capabilities, Elasticsearch is ideal for Product Catalogues.
 
 [Although probably not for all languages (Latin-based languages should be okay). And as noted below,
  ES does not handle frequent updates particularly well, so may not be up-to-the-minute accurate for
@@ -301,7 +301,7 @@ and not simply a __minor release__.
 [I have not tested this so it may well be that ___interval___ will not actually be removed until the next major release,
  however no developer really likes breaking changes and there seem to have been far too many of these during the brief
  time that I have been working with Elasticsearch. The problem with breaking changes is not so much that code needs to
- be changed - every developer expects and understands this - but that it then needs to be __tested__ afterwards.
+ be changed - _every developer expects and understands this_ - but that it then needs to be __tested__ afterwards.
  Testing code that may have been running happily for some time can often turn out to be a non-trivial problem.]
 
 ## Health
@@ -1234,7 +1234,7 @@ And a quote:
 
 > News and podcasts for developers
 
-[The Changelog](http://changelog.com/) is a podcast is its right, as well as an umbrella organization for various other interesting podcasts
+[The Changelog](http://changelog.com/) is a podcast in its own right, as well as an umbrella organization for various other interesting podcasts.
 
 Jerod and Adam talk with Philipp Krenn about Elasticsearch and doubling down on "open"
 
