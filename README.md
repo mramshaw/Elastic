@@ -22,6 +22,13 @@ The content are as follows:
 * [Motivation](#motivation)
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
+    * [Products Catalogues](#products-catalogues)
+    * [Data Visualization](#data-visualization)
+    * [Log ingestion and analysis](#log-ingestion-and-analysis)
+    * [Data assembly, standardization and enrichment](#data-assembly-standardization-and-enrichment)
+    * [Network, System and Performance monitoring](#network-system-and-performance-monitoring)
+    * [Data Science](#data-science)
+    * [Machine Learning](#machine-learning)
 * [Creating a cluster](#creating-a-cluster)
     * [AWS](#aws)
     * [GCP](#gcp)
@@ -159,16 +166,46 @@ It's a little unusual (for a database anyway) in that it offers __fuzzy search__
 
 As noted above, Elasticsearch is optimized for __search__, and more specifically - ___full-text search___.
 
-Due to it's ability to ingest and scan documents, it is becoming very useful for __data science__ also.
+Even so, it can be put to a surprisingly varied number of uses, some of which are listed below.
+
+#### Products Catalogues
+
+As a result of its ___full-text search___ capabilities, Elasticsearch is ideal for Products Catalogues.
+
+[Although probably not for all languages (Latin-based languages should be okay). And as noted below,
+ ES does not handle frequent updates particularly well, so may not be up-to-the-minute accurate for
+ pricing data.]
+
+#### Data Visualization
+
+At the enterprise level, it's very useful for the types of data visualization and dashboarding
+ offered by say, [Tableau](http://www.tableau.com/) (among others).
+
+#### Log ingestion and analysis
 
 For log ingestion and analysis, offerings from __DataDog__ and __Splunk__ may be more feature-rich,
-but this is still a very common use case for Elasticsearch.
+still this is a very common use case for Elasticsearch.
+
+#### Data assembly, standardization and enrichment
 
 For assembling data from disparate sources, standardization and enrichment (if needed) are critical.
 Elastic has recognized this - and offer [Beats](http://www.elastic.co/products/beats) to cover most
 eventualities.
 
-Elasticsearch also offers easy integration for [Machine Learning](http://www.elastic.co/what-is/elasticsearch-machine-learning).
+#### Network, System and Performance monitoring
+
+There are specialized Beats for monitoring Network, System and Performance data.
+
+For these purposes it can be used for the type of dashboarding provided by
+ [Grafana](http://grafana.com/) (among others).
+
+#### Data Science
+
+Due to it's ability to ingest and scan documents, it is becoming very useful for __data science__.
+
+#### Machine Learning
+
+Elasticsearch offers easy integration for [Machine Learning](http://www.elastic.co/what-is/elasticsearch-machine-learning).
 
 ## Creating a cluster
 
