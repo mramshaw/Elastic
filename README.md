@@ -67,6 +67,7 @@ The content are as follows:
 * [Beats and Logstash](#beats-and-logstash)
     * [Beats](#beats)
     * [Logstash](#logstash)
+* [X-Pack](#xpack)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
     * [SE-Daily](#se-daily)
@@ -93,11 +94,11 @@ The content are as follows:
 Having looked at [Cassandra with Python](http://github.com/mramshaw/Python_Cassandra), [Couchbase](http://github.com/mramshaw/RESTful-Couchbase) and [DynamoDB](http://github.com/mramshaw/DynamoDB),
  this time Elasticsearch is in the cross-hairs.
 
-Under the covers ElasticSearch uses [Apache Lucene](http://lucene.apache.org/).
+Under the covers Elasticsearch uses [Apache Lucene](http://lucene.apache.org/).
 
 Elasticsearch is very similiar to [Apache Solr](http://lucene.apache.org/solr/).
-Both ElasticSearch and Solr are built on top of Lucene, and seem to offer roughly
-similiar features. It's worth remembering that ElasticSearch, while open-source,
+Both Elasticsearch and Solr are built on top of Lucene, and seem to offer roughly
+similiar features. It's worth remembering that Elasticsearch, while open-source,
 is backed by a commercial (for-profit) company.
 
 Amazon offers both as services: Elasticsearch is marketed as
@@ -1176,11 +1177,25 @@ Logstash itself can either poll or receive, as it can be used to aggregate/enric
 These seem to be small modules that are designed for specific uses, such as network and/or packet monitors
 and the like.
 
-[There is also `Heartbeat` which can be used to monitor system uptime data.]
+For instance, there is [Functionbeat](http://www.elastic.co/products/beats/functionbeat) which can monitor
+__FaaS__ modules, such as __serverless__ components. [The Elastic diagram shows Cloudwatch Logs, Kinesis,
+and SQS. It is not entirely clear whether Functionbeat is meant to be an adjunct or an alternative to
+[AWS X-Ray](http://aws.amazon.com/xray/).]
+
+There is also [Heartbeat](http://www.elastic.co/products/beats/heartbeat) which can be used to monitor
+system uptime data.
+
+In addition to the Beats provided by Elastic, there are also Beats supported by the Elastic community.
 
 #### Logstash
 
 As far as I can tell, this is more of a traditional log ingestion tool.
+
+## X-Pack
+
+For additional requirements such as ___security___, ___access logging___ and ___alerting___ (to comply with
+the GDPR, perhaps) there is the __X-Pack__ - which has now been [opened up](http://www.elastic.co/what-is/open-x-pack)
+(for more details of this, refer to the [The Changelog podcast](#the-changelog)).
 
 ## Podcasts
 
@@ -1209,7 +1224,7 @@ Presumably well-structured data can be shipped to Elasticsearch directly by Beat
 
 > Software Engineering Daily features daily interviews about technical software topics.
 
-An interesting chat about using ElasticSearch at Scale:
+An interesting chat about using Elasticsearch at Scale:
 
     http://softwareengineeringdaily.com/2019/03/20/elasticsearch-at-scale-with-volkan-yazici/
 
@@ -1384,7 +1399,9 @@ __Versioning__ is complicated; can also specify __timeouts__.
 
 ## To Do
 
+- [x] Investigate [Beats](http://www.elastic.co/products/beats)
 - [ ] Investigate [Beats](http://www.elastic.co/products/beats) & [Logstash](http://www.elastic.co/products/logstash) (and how they differ)
+- [x] Investigate the X-Pack
 
 ## Credits
 
