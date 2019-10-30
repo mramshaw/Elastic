@@ -23,6 +23,7 @@ The content are as follows:
 * [Elasticsearch overview](#elasticsearch-overview)
 * [Use Cases](#use-cases)
     * [Product Catalogues](#products-catalogues)
+    * [Application or Site Search](#application-or-site-search)
     * [Data Visualization](#data-visualization)
     * [Log ingestion and analysis](#log-ingestion-and-analysis)
     * [Data assembly, standardization and enrichment](#data-assembly-standardization-and-enrichment)
@@ -67,7 +68,7 @@ The content are as follows:
 * [Beats and Logstash](#beats-and-logstash)
     * [Beats](#beats)
     * [Logstash](#logstash)
-* [X-Pack](#xpack)
+* [X-Pack](#x-pack)
 * [Podcasts](#podcasts)
     * [SE-Radio](#se-radio)
     * [SE-Daily](#se-daily)
@@ -176,6 +177,10 @@ As a result of its ___full-text search___ capabilities, Elasticsearch is ideal f
 [Although probably not for all languages (Latin-based languages should be okay). And as noted below,
  ES does not handle frequent updates particularly well, so may not be up-to-the-minute accurate for
  pricing data.]
+
+#### Application or Site Search
+
+To quickly add search to an app or website, there is [Search UI](https://github.com/elastic/search-ui).
 
 #### Data Visualization
 
