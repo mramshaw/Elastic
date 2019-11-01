@@ -9,7 +9,11 @@ The steps to follow to install Elasticsearch with Docker.
 The content are as follows:
 
 * [Dockerized Elasticsearch](#dockerized-elasticsearch)
+    * [Running Elasticsearch](#running-elasticsearch)
+    * [Verifying Elasticsearch](#verifying-elasticsearch)
 * [Dockerized Kibana](#dockerized-kibana)
+    * [Running Kibana](#running-kibana)
+    * [Verifying Kibana](#verifying-kibana)
 
 ## Dockerized Elasticsearch
 
@@ -81,6 +85,8 @@ vm.max_map_count = 262144
 $
 ```
 
+#### Running Elasticsearch
+
 Run the docker image:
 
 ```bash
@@ -95,7 +101,9 @@ which disables [Bootstrap Checks](http://www.elastic.co/guide/en/elasticsearch/r
 
 [As usual, Ctrl-C to stop.]
 
-And if we go to http://localhost:9200 in a browser, we should get:
+#### Verifying Elasticsearch
+
+If we go to http://localhost:9200 in a browser, we should get:
 
 ```
 {
@@ -133,7 +141,9 @@ The instructions are here:
 
     http://www.elastic.co/guide/en/kibana/7.3/docker.html
 
-And run it:
+#### Running Kibana
+
+To run Kibana:
 
 ```bash
 $ docker run --link es7.3.1:elasticsearch -p 5601:5601 --name kibana7.3.1 --rm docker.elastic.co/kibana/kibana:7.3.1
@@ -143,7 +153,9 @@ $
 
 [As usual, Ctrl-C to stop.]
 
-And if we go to http://localhost:5601 in a browser, we should see a Kibana console.
+#### Verifying Kibana
+
+If we go to http://localhost:5601 in a browser, we should see a Kibana console.
 
 If things are not synchonized yet, there will be a __Kibana server is not ready yet__ message.
 So wait a few seconds and try again.

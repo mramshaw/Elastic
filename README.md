@@ -77,6 +77,7 @@ The content are as follows:
     * [Glossary](#glossary)
     * [Mappings](#mappings)
     * [Mappings and Amazon Elasticsearch Service](#mappings-and-amazon-elasticsearch-service)
+    * [Logstash plugins](#logstash-plugins)
     * [Dates](#dates)
     * [Number formatting](#number-formatting)
     * [Indices and Aliases](#indices-and-aliases)
@@ -180,7 +181,7 @@ As a result of its ___full-text search___ capabilities, Elasticsearch is ideal f
 
 #### Application or Site Search
 
-To quickly add search to an app or website, there is [Search UI](https://github.com/elastic/search-ui).
+To quickly add search to an app or website, there is [Search UI](http://github.com/elastic/search-ui).
 
 #### Data Visualization
 
@@ -191,6 +192,26 @@ At the enterprise level, it's very useful for the types of data visualization an
 
 For log ingestion and analysis, offerings from __DataDog__ and __Splunk__ may be more feature-rich,
 still this is a very common use case for Elasticsearch.
+
+There are quick and easy ingestion options for many common log formats such as:
+
+1. Apache logs
+1. Cloudwatch logs
+1. Elasticsearch logs
+1. Kafka logs
+1. Logstash logs
+1. MySQL logs
+1. Nats logs
+1. Nginx logs
+1. PostgreSQL logs
+1. Syslogs
+1. Traefik logs
+
+In addition, there are numerous other ingestion options available via [Logstash plugins](#logstash-plugins).
+
+[Elastic appear to have taken note of the value of standard log formats, and with Elastic 7.0 have
+ introduced the [Elastic Common Schema](http://www.elastic.co/guide/en/ecs/1.1/index.html), to which
+ all Beats now conform.]
 
 #### Data assembly, standardization and enrichment
 
@@ -1143,7 +1164,7 @@ problem that there is a pretty easy fix:
 
 ![Index/Alias remapping](images/Index_Alias.png)
 
-From: https://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
+From: http://www.elastic.co/guide/en/elasticsearch/reference/current/indices-aliases.html
 
 ## Aggregates
 
@@ -1176,6 +1197,8 @@ Elasticsearch directly.
 I have yet to determine how they differ, but at first glance it seems that Beats are a "push" arrangement
 while Logstash is more of a "pull" arrangement. However this is merely a guess on my part. Presumably
 Logstash itself can either poll or receive, as it can be used to aggregate/enrich data from Beats.
+
+For more details about Beats and Logstash, refer to [Logstash plugins](#logstash-plugins).
 
 #### Beats
 
@@ -1295,6 +1318,15 @@ If using Amazon Elasticsearch Service, their console can be used to view index m
 
 ![AWS Kibana mappings](images/Kibana_mappings.png)
 
+#### Logstash plugins
+
+There are plugins to cover many eventualities and use cases: http://www.elastic.co/guide/en/logstash/current/input-plugins.html
+
+[This page lists an extensive list of plugins that may be used for such things as ingesting logs, metrics and events.
+ And once they are in Elasticsearch, Kibana can then provide many templated monitoring and dashboarding options.]
+
+Elastic also offers a pretty useful Support Matrix: http://www.elastic.co/support/matrix#show_logstash_plugins
+
 #### Dates
 
 Careful consideration needs to be paid to dates, as most queries will involve time-related processing or date ranges:
@@ -1322,7 +1354,7 @@ It is possible to format numbers:
 
 The index APIs:
 
-    https//www.elastic.co/guide/en/elasticsearch/reference/current/indices.html
+    http//www.elastic.co/guide/en/elasticsearch/reference/current/indices.html
 
 A little long, but worth reading:
 
